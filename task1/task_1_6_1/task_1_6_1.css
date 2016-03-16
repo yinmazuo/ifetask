@@ -143,14 +143,13 @@ body {
 	font-family: "Microsoft YaHei";
 }
 #t_right h2 {
-	font: 24px/40px;	
+	font-size: 24px;
+	font-variant: small-caps;/*小型大写字母*/
+	text-transform: capitalize;	/*首字母大写*/
+	line-height: 40px;
 	color: #000;
 	text-decoration: underline;
 }
-#t_right h2 span {
-	font-variant: small-caps;
-}
-
 #t_right h3 {
 	font: 12px/10px "KaiTi";
 	color: #676767;
