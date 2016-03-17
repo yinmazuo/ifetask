@@ -1,0 +1,159 @@
+@charset "utf-8";
+
+/*reset---------------*/
+* {margin: 0; padding: 0;}
+a {
+    text-decoration: none;
+    color: #fff;
+}
+ol, ul {
+    list-style: none;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-size: 100%;
+    font-weight: normal;
+    margin: 0;
+    padding: 0;
+}
+
+/*normal------------*/
+
+body {
+	width: 1280px;
+	margin: 0 auto;
+	font-family: "Microsoft YaHei";
+}
+
+/*header------------*/
+
+#header {
+	width: 100%;
+	height: 60px;
+}
+h1 {
+	position: relative;
+	float: left;
+	height: 60px;
+	left: 60px;
+	font-size: 20px;
+	line-height: 60px;
+}
+h1 i {
+	float: left;
+	display: block;
+	width: 50px;
+	height: 50px;
+	margin: 10px 0;
+	background-image: url(img/icon.jpg);
+	background-position: -150px -50px;
+}
+h1 span {float: left;}
+#header .nav {
+	float: right;
+	margin-right: 60px;
+}
+#header .nav > li {
+	display: inline-block;	
+	width: 60px;
+	height: 60px;
+	margin-right: 20px;
+	font-size: 12px;
+	line-height: 60px;
+	text-align: justify;
+	text-align: center;
+}
+#header .nav a {
+	display: block;
+	box-sizing: border-box;
+	width: 60px;
+	height: 60px;
+	color: #564949;
+}
+#header .nav li:first-child a {
+	color: #E74E49;
+	border-bottom: 3px solid #E74E49;
+}
+
+
+/*main------------*/
+/*introduction--*/
+.banner {
+	position: absolute;
+	width: 1280px;
+	height: 800px;
+	background-image: url(img/new-life.jpg);
+}
+.banner:after {
+	content: " ";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 1280px;
+	height: 800px;
+	background-color: rgba(0, 0, 0, .2);
+}
+.new-life {
+	position: relative;
+	top: 240px;
+	left: 120px;
+	color: #fff;
+}
+.new-life h2 {
+	font-size: 60px;
+	line-height: 96px;
+}
+.new-life h3 {
+	font-size: 20px;
+	line-height: 28px;
+}
+.new-life span {
+	position: relative;
+	top: 60px;
+	display: block;
+	width: 320px;
+	height: 64px;
+	font-size: 32px;
+	line-height: 64px;
+	text-align: center;
+	background-color: #E74E49;
+}
+.point {
+	position: relative;
+	top: 585px;
+	width: 1280px;
+	height: 180px;
+}
+.point > li {
+	display: inline-block;
+	width: 24.6%;
+}
+.point span {
+	display: block;
+	width: 50px;
+	height: 50px;
+	margin: 50px auto;
+}
+.point p {
+	box-sizing: border-box;
+	width: 99%;
+	height: 50px;
+	padding: 0 60px;
+	border-right: 2px solid #E74E49;
+	text-align: center;
+	color: #564949;
+}
+.point li:last-child p {border-right: none;}
+.point li span {background-image: url(img/icon.jpg);}
+.point li:first-child span {background-position: 0 0;}
+.point li:nth-child(2) span {background-position: -50px 0;}
+.point li:nth-child(3) span {background-position: -100px 0;}
+.point li:last-child span {background-position: -150px 0;}
+
+/*city--*/
+
+
+
+
+
+
