@@ -25,7 +25,7 @@ window.onload = function () {
 		for (var i = 0; i < num; i++) {
 			var element = document.createElement("div");
 			element.style.height = height[i] + "px";
-			bgc(element, "#fff");
+			bgc(element, "#00ff00");
 			wrap.appendChild(element);
 			listArr.push(element);
 		}	
@@ -51,7 +51,7 @@ window.onload = function () {
 		
 		function sort() {	
 			var head = list.shift();
-			bgc(head, "#ff0000");
+			
 			if (parseInt(head.style.height) < 
 				parseInt(pivot.style.height)) {
 				try {transform(head, pivot);} catch(ex) {}//排序中再随机会引发错误，但是可控的意料之中的
@@ -73,7 +73,6 @@ window.onload = function () {
 	function transform(ele, pivot) {//移除比pivot后面比他小的，并放在pivot前
 		var newEle = ele;
 		wrap.removeChild(ele);
-		bgc(newEle, "#ff0000");
 		wrap.insertBefore(newEle, pivot);
 	}
 
