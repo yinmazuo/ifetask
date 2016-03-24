@@ -18,29 +18,33 @@
 		#screen {
 			position: relative;
 			top: 50px;
-			width: 800px;
-			height: 300px;
+			width: 840px;
+			height: 340px;
 			background-color: #000;
 			margin: 0 auto;
 		}
 		
 		#wrap {
 			position: absolute;
-			top: 0;
-			left: 0;
+			top: 20px;
+			left: 20px;
+			display: flex;
+			display: -webkit-flex;
+			align-items: flex-end;		
+			-webkit-align-items: flex-end;
 		}
 		#wrap > div {
 			float: left;
 			margin: 0;
 			padding: 0;
-			width: 10px;
+			width: 1px;
 		}
 	</style>
 	<script type="text/javascript" src="task_2_19.js"></script>
 </head>
 <body>
 	<div id="btn">
-		<button id="random">随机400</button>
+		<button id="random">随机800</button>
 		<button id="sort">排序</button>
 	</div>
 	<div id="screen">
