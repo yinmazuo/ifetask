@@ -9,12 +9,12 @@ window.onload = function () {
 	init.onclick = function () {
 		wrap.innerHTML = "";//每次点击清除上一次
 		listArr = [];
-		random(800);
-		initElements(800);
+		random(400);
+		initElements(400);
 	};
 
 	sort.onclick = function (){
-		if (listArr.length == 800) {//只有数组未排序，点击才有效
+		if (listArr.length == 400) {//只有数组未排序，点击才有效
 			qSort(listArr);
 		}
 	};
@@ -25,15 +25,15 @@ window.onload = function () {
 		for (var i = 0; i < num; i++) {
 			var element = document.createElement("div");
 			element.style.height = height[i] + "px";
-			bgc(element, "#00ff00");
+			bgc(element);
 			wrap.appendChild(element);
 			listArr.push(element);
 		}	
 	}
 
-	function random(num) {//产生1~300的随机数，作为条柱的height
+	function random(num) {//产生1~400的随机数，作为条柱的height
 		for (var i = 0; i < num; i++) {	
-			rand.push(Math.floor(Math.random() * 300 + 1));
+			rand.push(Math.floor(Math.random() * 400 + 1));
 		}
 	}
 
@@ -46,7 +46,6 @@ window.onload = function () {
 		if (list.length == 0) {
 			return [];
 		}
-		bgc(pivot, "#0000ff");
 		sort();
 		
 		function sort() {	
@@ -63,7 +62,6 @@ window.onload = function () {
 			if (list.length > 0) {
 				setTimeout(sort, 1);				
 			} else {//每次排序完开始递归排子数组（以下处理，自觉很乱，可是有效！还会改进）
-				bgc(pivot, "#00ff00");
 				return qSort(lesser).concat(pivot, qSort(greater));
 			}
 		}
@@ -76,7 +74,12 @@ window.onload = function () {
 		wrap.insertBefore(newEle, pivot);
 	}
 
-	function bgc(ele, color) {	//改变颜色
+	function bgc(ele) {	//随机生成颜色值
+		var color = "";
+		for (var i = 0; i < 6; i++) {
+			color += "0123456789abcdef"[Math.floor(Math.random()*16)];
+		}
+		color = "#" + color;
 		ele.style.backgroundColor = color;
 	}
 
