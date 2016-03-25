@@ -60,7 +60,7 @@ window.onload = function () {
 			}
 			
 			if (list.length > 0) {
-				setTimeout(sort, 1);				
+				setTimeout(sort, 5);				
 			} else {//每次排序完开始递归排子数组（以下处理，自觉很乱，可是有效！还会改进）
 				return qSort(lesser).concat(pivot, qSort(greater));
 			}
