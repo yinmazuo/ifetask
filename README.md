@@ -8,3 +8,4 @@
 - [task_2_19](http://yinmazuo.github.io/ifetask/task2/task_2_19/task_2_19.html)
 - [task_2_22](http://yinmazuo.github.io/ifetask/task2/task_2_22.html)
 - [task_2_23](http://yinmazuo.github.io/ifetask/task2/task_2_23/task_2_23.html)
+- [task_2_25](http://yinmazuo.github.io/ifetask/task2/task_2_25/task_2_25.html)
