@@ -47,7 +47,7 @@ var chartData = {};
 
 // 记录当前页面的表单选项
 var pageState = {
-  nowSelectCity: -1,
+  nowSelectCity: "北京",
   nowGraTime: "day"
 }
 
@@ -55,7 +55,66 @@ var pageState = {
  * 渲染图表
  */
 function renderChart() {
-
+  chartData = aqiSourceData[pageState.nowSelectCity];
+  switch (pageState.nowGraTime) {
+    case "day":
+    chartData = aqiSourceData[pageState.nowSelectCity];
+    break;
+    case "week":
+    chartData = weekAverage(chartData);
+    break;
+    case "month":
+    chartData = monthAverage(chartData);
+    break;   
+  }
+  var wrap = document.getElementsByClassName("aqi-chart-wrap")[0];
+  wrap.innerHTML = "";
+  //遍历对象添加柱形
+  for (var time in chartData) {
+    var div = createDiv(chartData[time], pageState.nowGraTime);
+    wrap.appendChild(div);
+  }
+}
+/**
+ * 处理成需要的周数据
+ */
+function weekAverage(data) {
+  var wData = {}, count = 0;
+  for (var day in data) {
+    ++count;
+    var week = Math.ceil(count/7);
+    if (wData[week] == null) {
+      wData[week] = [];
+    }
+    wData[week].push(data[day]);
+  }
+  for (var w in wData) {
+    wData[w] = Math.floor(wData[w].reduce(function(prev, cur, index, array){
+      return prev + cur;
+    })/wData[w].length);
+  }
+  return wData;
+}
+/**
+ * 处理成需要的月数据
+ */
+function monthAverage(data) {
+  var mData = {};
+  //将原始数据以月为单位生成新对象
+  for (var day in data) {
+    var month = day.slice(5, 7);
+    if (mData[month] == null) {
+      mData[month] = [];
+    }
+    mData[month].push(data[day]);
+  }
+  //遍历生成的新对象，将其属性值分别求平均，再生成新对象
+  for (var m in mData) {
+    mData[m] = Math.floor(mData[m].reduce(function(prev, cur, index, array){
+      return prev + cur;
+    })/mData[m].length);
+  }
+  return mData;
 }
 
 /**
@@ -65,9 +124,9 @@ function graTimeChange(value) {
   // 确定是否选项发生了变化 
   if (pageState.nowGraTime != value) {
   // 设置对应数据
-    pageState.nowGraTime = value  
+    pageState.nowGraTime = value;  
   // 调用图表渲染函数
-    renderChart();
+    renderChart.apply(this);
   }
 }
 
@@ -80,7 +139,7 @@ function citySelectChange(value) {
   // 设置对应数据
     pageState.nowSelectCity = value;
   // 调用图表渲染函数
-    renderChart();
+    renderChart.apply(this);
   }
 }
 
@@ -125,9 +184,48 @@ function initCitySelector() {
 function initAqiChartData() {
   // 将原始的源数据处理成图表需要的数据格式
   // 处理好的数据存到 chartData 中
+  chartData = aqiSourceData["北京"];
+  for (var day in chartData) {
+    var div = createDiv(chartData[day], "day");
+    document.getElementsByClassName("aqi-chart-wrap")[0].appendChild(div);
+  }
+}
 
+/**
+ * 创建柱形
+ */
+function createDiv(height, className){
+  var color = randomColor(),  
+      div = document.createElement("div");
 
-  
+  div.style.height = height + "px";
+  div.style.backgroundColor = color;
+  div.className = className;
+
+  var tooltip = document.createElement("div");
+
+  div.onmouseover = function () {
+    tooltip.innerHTML = height;
+    tooltip.className = "tooltip";
+    div.appendChild(tooltip);
+  };
+
+  div.onmouseout = function () {
+    div.removeChild(tooltip);
+  };
+  return div;
+}
+
+/**
+ * 随机生成颜色值
+ */
+function randomColor() { 
+  var color = "";
+  for (var i = 0; i < 6; i++) {
+    color += "0123456789abcdef"[Math.floor(Math.random()*16)];//每次产生一个随机16进制数
+  }
+  color = "#" + color;
+  return color;
 }
 
 /**
@@ -140,6 +238,5 @@ function init() {
 }
 
 window.onload = function (){
-  console.log(aqiSourceData);
   init();
 }

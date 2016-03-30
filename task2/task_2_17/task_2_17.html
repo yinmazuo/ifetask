@@ -9,7 +9,7 @@
     		float: left;
     	}
     	fieldset {
-    		border: none;
+    		border-radius: 8px;
     	}
 
 		.aqi-chart-wrap {
@@ -18,27 +18,76 @@
 			margin: 0 auto;
 			width: 1000px;
 			height: 600px;
-			background-color: #ccc;
-		}
-
-		.aqi-chart-wrap > div {
-			box-sizing: border-box;
-			border: 1px solid #ccc;
-			float: left;
+			border: 1px solid #000;
+			border-radius: 5px;
 			display: flex;
 			align-items: flex-end;
 		}
+		
+		.aqi-chart-wrap > h2 {
+			position: absolute;
+			top: 0;
+			width: 100%;
+			text-align: center;
+			font-size: 24px;
+		}
+		.aqi-chart-wrap > div {
+			position: relative;
+			box-sizing: border-box;
+			float: left;	
+			margin: 0 auto;			
+		}
+		.aqi-chart-wrap > div:hover {
+			border: 1px solid #000;
+		}
 
 		.day {
-			width: 10px;
+			width: 10px;			
 		}
 		.week {
 			width: 30px;
 		}
 		.month {
-			width: 80px;
+			width: 200px;
 		}
-
+		@keyframes downIn {
+			0% {
+				top: -70px;
+				opacity: 0;
+			}
+			100% {
+				top: -50px;
+				opacity: 1;
+			}
+		}
+		.tooltip {
+			position: absolute;
+			top: -50px;
+			left: 50%;
+			margin-left: -25px;
+			border-radius: 5px;
+			width: 50px;
+			height: 30px;
+			text-align: center;
+			line-height: 30px;
+			font-size: 14px;
+			color: #000;
+			background-color: #ccc;
+			z-index: 10;
+			opacity: 0;
+			animation: downIn 1s ease 0s forwards; 
+		}
+		
+		.tooltip::after {
+			border: solid transparent;
+			border-top-color: #ccc;
+			border-width: 10px;
+			content: " ";
+			width: 0;
+			position: absolute;
+			top: 100%;
+			right: 15px;
+		}
     </style>
     <script src="task_2_17.js"></script>
   </head>
@@ -53,12 +102,12 @@
 
 	  <fieldset>
 	    <legend>请选择查看的城市：</legend>
-	    <select id="city-select">
-	      
+	    <select id="city-select">     
 	    </select>
 	  </fieldset>
   	</div>
   	<div class="aqi-chart-wrap">
+  		<h2>城市空气质量指数</h2>
   	</div>
 </body>
 </html>
