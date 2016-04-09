@@ -53,10 +53,12 @@ function FormConf(name, label, type, pattern, rules, success, fail) {
 }
 
 function validator(input) {
+	var that = this;
 	eve.addListener(input, "focus", focusHandler);
 	eve.addListener(input, "blur", blurHandler);
 	function focusHandler(e) {
-		tooltip(e.target, this.rules, "#00f");
+		e.target.style.borderColor = "#00f";
+		tooltip(e.target, that.rules, "#00f");
 	}
 	function blurHandler(e) {
 		if (e.target.value === "") {
@@ -65,20 +67,21 @@ function validator(input) {
 			e.target.dataset.status = false;
 			return ;
 		}
-		if (this.pattern.test(e.target.value)) {
+		if (that.pattern.test(e.target.value)) {
 			e.target.style.borderColor = "#0f0";
-			tooltip(e.target, this.success, "#0f0");
+			tooltip(e.target, that.success, "#0f0");
 			e.target.dataset.status = true;
 		} else {
 			e.target.style.borderColor = "#f00";
-			tooltip(e.target, this.fail, "#f00");
-			e.targetdataset.status = false;
+			tooltip(e.target, that.fail, "#f00");
+			e.target.dataset.status = false;
 		}			
 	}
 }
 function tooltip(input, text, color) {
 	var span;
 	if (input.parentNode.getElementsByTagName("span").length > 0) {
+		span = input.parentNode.getElementsByTagName("span")[0];
 		span.innerHTML = text;
 		span.style.color = color;		
 	} else {
@@ -120,19 +123,23 @@ function createForm(obj) {
 	wrap.appendChild(label);
 	wrap.appendChild(input);
 	wrap.appendChild(create("br"));
+	return wrap;
 }
 
 function submit() {
 	var submit = create("input");
+	submit.className = "submit";
 	submit.type = "submit";
 	eve.addListener(submit, "click", submitHandler);
 	function submitHandler(e) {
 		var inputs = submit.parentNode.getElementsByClassName("input"),
 			status = true;
 		for (var i = 0, length = inputs.length; i < length; i++) {
+			inputs[i].focus();
 			inputs[i].blur();
-			if (inputs[i].dataset.status === false) {status = false;}
+			if (inputs[i].dataset.status === "false") {status = false;}//属性需要引号
 		}
+
 		if (status === false) {
 			e.preventDefault();
 			window.alert("输入有误！");
@@ -145,9 +152,10 @@ function submit() {
 
 function initForm(wrap, arr, url) {
 	var link = create("link");
+	link.rel = "stylesheet";
 	link.type = "text/css";
 	link.href = url;
-	document.head.appendChild(link);
+	$("head").appendChild(link);
 	var confObj = conf();
 
 	for (var i = 0, length = arr.length; i < length; i++) {
@@ -159,4 +167,5 @@ function initForm(wrap, arr, url) {
 	}
 	wrap.appendChild(submit());	
 }
-initForm($("#form1"), ["username"], "css1.css");// password, confirmPsw, email, mobile
+
+

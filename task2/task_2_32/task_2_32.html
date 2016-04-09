@@ -5,18 +5,15 @@
 	<title>task_2_32</title>
 	<style type="text/css">
 		* {margin: 0;padding: 0;}
-
-		#form1, #form2 {
-			float: left;
-			width: 600px;
-			padding: 20px;
-			border: 1px solid #00f;
-		}	
 	</style>
+	<script src="formValidate.js" type="text/javascript"></script>	
 </head>
 <body>
 	<form action="" id="form1"></form>
 	<form action="" id="form2"></form>
-	<script src="formValidate.js" type="text/javascript" charset="utf-8" async defer></script>
+
+	<script type="text/javascript" charset="utf-8" async defer>
+		initForm($("#form1"), ["username"], "css1.css");// password, confirmPsw, email, mobile
+	</script>
 </body>
 </html>

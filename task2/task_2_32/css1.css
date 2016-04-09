@@ -39,7 +39,7 @@
 	font-size: 18px;
 	line-height: 32px;
 }
-#form1 #submit {
+#form1 .submit {
 	position: relative;
 	left: 360px;
 	margin-top: 30px;
