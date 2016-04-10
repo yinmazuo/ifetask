@@ -2,53 +2,54 @@
 
 #form1{
 	margin: 40px auto;
-	width: 500px;
+	width: 600px;
 	padding: 10px;
-	border: 1px solid #1350BF;
-	border-radius: 10px;
+	border: 1px solid #7A7A7A;
+	border-radius: 5px;
 	font-family: "Microsoft YaHei";
 }
-#form h2 {
+#form1 h2 {
 	width: 100%;
-	margin: 10px auto 20px;
-	text-align: center;
+	height: 40px;
+	text-align: left;
 	font-weight: normal;
+	border-bottom: 1px solid #ccc;
 }
 #form1 > div {
-	width: 500px;
+	width: 100%;
 	margin-bottom: 20px;
 }
 #form1 > div > span {
-	position: relative;
-	left: 110px;
+	margin-left: 20px;
+	font-size: 14px;
 }
 #form1 label {
-	display: inline-block;
-	width: 100px;
-	text-align: right;
+	display: block;
+	width: 100%;
+	text-align: left;
 	font-family: "Microsoft YaHei";
-	font-size: 18px;
-	line-height: 60px;
-	font-weight: bolder;
+	font-size: 14px;
+	line-height: 24px;
+	color: #aaa;
 }
 #form1 input {
 	width: 360px;
-	height: 40px;
+	height: 30px;
 	border: 1px solid #aaa;
 	border-radius: 5px;
-	font-size: 18px;
-	line-height: 32px;
+	font-size: 14px;
+	line-height: 28px;
 }
 #form1 .submit {
 	position: relative;
-	left: 360px;
+	left: 0;
 	margin-top: 30px;
 	width: 100px;
 	height: 40px;
-	border: 0;
+	border: .5px solid #7A7A7A;
 	border-radius: 5px;
 	font-family: "Microsoft YaHei";
 	font-size: 18px;
-	background-color: #1350BF;
+	background-color: #1AE437;
 	color: #fff;
 }

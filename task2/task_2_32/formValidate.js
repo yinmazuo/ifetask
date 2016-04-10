@@ -92,8 +92,6 @@ function tooltip(input, text, color) {
 	}	
 }
 
-
-
 function conf() {
 	var username = new FormConf(
 		"username",
@@ -102,9 +100,47 @@ function conf() {
 		/^.{4,16}$/, 
 		"必填，长度为4~16个字符", 
 		"格式正确", 
-		"格式错误");
+		"格式错误"),
+	password = new FormConf(
+		"password",
+		"密码",//表单标签
+		"password",//表单类型
+		/^[a-zA-Z]\w{5,17}$/,
+		"以字母开头，长度为6~18个字符",
+		"密码可用",
+		"密码不可用"),
+	confirmPsw = new FormConf(
+		"confirmPsw",
+		"确认密码",//表单标签
+		"password",//表单类型
+		/ /,
+		"再次输入密码",
+		"密码输入一致",
+		"密码输入不一致"),
+	email = new FormConf(
+		"email",
+		"邮箱",//表单标签
+		"email",//表单类型
+		/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
+		"输入电子邮箱地址",
+		"邮箱格式正确",
+		"邮箱格式错误"),
+	mobile = new FormConf(
+		"mobile",
+		"手机",//表单标签
+		"text",//表单类型
+		/^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/,
+		"输入手机号码",
+		"手机格式正确",
+		"手机格式不正确");
+
+
 	var confObj = {
-		"username": username
+		"username": username,
+		"password": password,
+		"confirmPsw": confirmPsw,
+		"email": email,
+		"mobile": mobile
 	};
 	return confObj;
 }
@@ -114,7 +150,7 @@ function createForm(obj) {
 		label = create("label"),
 		input = create("input");
 	label.for = obj.name;
-	label.innerHTML = obj.label + ":";
+	label.innerHTML = obj.label + ":&nbsp;";
 	input.id = obj.name;
 	input.dataset.status = false;
 	input.className = "input";
@@ -122,7 +158,6 @@ function createForm(obj) {
 	obj.validator(input);
 	wrap.appendChild(label);
 	wrap.appendChild(input);
-	wrap.appendChild(create("br"));
 	return wrap;
 }
 
@@ -150,20 +185,18 @@ function submit() {
 	return submit;
 }
 
-function initForm(wrap, arr, url) {
+function initForm(wrap, url) {
+	var h2 = create("h2");
+	h2.innerHTML = "注册信息";
+	wrap.appendChild(h2);
 	var link = create("link");
 	link.rel = "stylesheet";
 	link.type = "text/css";
 	link.href = url;
 	$("head").appendChild(link);
 	var confObj = conf();
-
-	for (var i = 0, length = arr.length; i < length; i++) {
-		for (var key in confObj) {
-			if (key == arr[i]) {
-				wrap.appendChild(createForm(confObj[key]));
-			}
-		}		
+	for (var key in confObj) {		
+		wrap.appendChild(createForm(confObj[key]));
 	}
 	wrap.appendChild(submit());	
 }
