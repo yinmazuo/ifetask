@@ -34,3 +34,7 @@ var eve = (function (){
 function $(selector) {
 	return document.querySelector(selector);
 }
+
+function $create(element) {
+	return document.createElement(element);
+}
