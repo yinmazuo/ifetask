@@ -28,9 +28,9 @@ var scene = function () {
 			info = num + "号-" + power + "%";
 
 		context.fillStyle = "#00f";
-		context.beginPath();
 
-		context.rotate(speed);
+		context.beginPath();
+		context.rotate(speed);	
 
 		context.moveTo(x - 20, y);
 		context.arc(x - 20, y, r, Math.PI/2, - Math.PI/2, false);
@@ -55,8 +55,16 @@ var scene = function () {
 		context.closePath();
 	};
 
+	var clear = function(num) {
+		y = - 80 - (num - 1) * 40;
+		context.fillStyle = "#000";
+		context.clearRect(- 30, y - 10, 60, 20);
+		context.fillRect(- 31, y - 11 , 62, 22);
+	};
+
 	return {
-		spaceship: spaceship
+		spaceship: spaceship,
+		clear: clear
 	}
 
 }();

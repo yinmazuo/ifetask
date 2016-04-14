@@ -47,7 +47,7 @@ function runSort(){
 		arr.push(div[i]);
 	}
 	qSort.call(this, arr);
-};
+}
 
 //左入
 function leftIn() {
@@ -57,7 +57,7 @@ function leftIn() {
 	} else {
 		$("#wrap").appendChild(newElement());
 	}
-};
+}
 //左出
 function leftOut() {
 	if ($("#wrap").firstElementChild){
@@ -65,12 +65,12 @@ function leftOut() {
 	} else {
 		alert("无可移除对象！");
 	}
-};
+}
 //右入
 function rightIn() {	
 	if (!newElement()) {return;}
 	$("#wrap").appendChild(newElement());
-};
+}
 //右出
 function rightOut() {
 	if ($("#wrap").lastElementChild){
@@ -78,7 +78,7 @@ function rightOut() {
 	} else {
 		alert("无可移除对象！");
 	}
-};
+}
 
 /*
 *创建带有width以及随机color的div
