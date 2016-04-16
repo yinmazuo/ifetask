@@ -1,56 +1,43 @@
 
-var spaceshipSystem = function() {
-	var num,
-		speed,
-		power = 100,
-		run,
-		consumption = 3,
-		charge = 1;
+var SpaceshipSystem = function(num) {
+	var run;
+	this.speed = 160;
+	this.deg = 0;
+	this.energy = 100;
+	this.newSpaceship = new view.Spaceship();
+	this.energySystem = function() {
 
-	var powerSystem = function() {
-		power -= consumption;
-		if (power < 0) {
-			power = 0;
-		}
-		if (power == 0) {
-			speed = 0;
-			clearInterval(run);
-		}					
 	};
+	this.engineSystem = function() {
+		var that = this;
 
-	var engineSystem = function(num) {
-		run = setInterval(function(){
-			scene.clear(num);			
-			powerSystem();						
-			scene.spaceship(num, speed, power);
-		}, 100);		
+		run = setTimeout(function() {		
+			var d = 80 + (num - 1) * 40;
+				that.deg += Math.asin(that.speed / 2 / d);
+				energy = that.energy;
+				
+			view.refresh();
+			that.newSpaceship.draw(num, that.deg, energy);
+			that.engineSystem();	
+		}, 20);
 	};
+	this.mediator = function() {
 
-	function Spaceship(){	
-		this.build = build;
-		this.start = start;
-		this.stop = stop;
-		this.destory = destory;
-	}
-
-	function build(n) {
-		num = n;
-		scene.spaceship(num, 0, 100);
-	}
-	function start() {
-		speed = 1/20;
-		engineSystem(num);
-	}
-	function stop() {
-		speed = 0;
-		clearInterval(run);
-	}
-	function destory() {
+	};
+	this.start = function() {
+		this.engineSystem();
+	};
+	this.stop = function() {
+		clearTimeout(run);
+	};
+	this.destory = function() {
 		this.stop();
-		scene.clear(num);
-	}
-	
-	return {
-		Spaceship: Spaceship
-	}
-}();
+		this.newSpaceship = null;
+	};
+};
+
+
+var ss = new SpaceshipSystem(1);
+ss.start(); 
+var s = new SpaceshipSystem(2);
+//s.start(); 

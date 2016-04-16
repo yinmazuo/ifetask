@@ -24,8 +24,9 @@ var view = function () {
 		context.save();
 	};	
 
-	var Spaceship = function (num, deg, energy) {
-		this.draw = function() {
+
+	var Spaceship = function () {
+		this.draw = function(num, deg, energy) {
 			var r = 10,
 				l = 20,
 				p = Math.PI,
@@ -97,7 +98,6 @@ var view = function () {
 		context.clearRect(-uni.width / 2, -uni.height / 2, uni.width, uni.height);
 		background();
 	};
-
 	background();
 
 	return {
@@ -106,10 +106,3 @@ var view = function () {
 	}
 
 }();
-
-var ss = new view.Spaceship(1, 0, 100);
-ss.draw();
-var s = new view.Spaceship(2, 0, 100);
-s.draw();
-var q = new view.Spaceship(3, 0, 100);
-q.draw();
