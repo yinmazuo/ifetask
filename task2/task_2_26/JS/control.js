@@ -5,11 +5,7 @@ var panel = function() {
 	eve.addListener($(".newSpaceship"), "click", newHandler);
 
 	function newHandler() {		
-		if (spaceshipNum > 4) {alert("仅有4艘飞船！！！");return ;}
-		var spaceship = new spaceshipSystem.Spaceship();	
-		createSinglePanel(spaceship, spaceshipNum);
-		spaceship.build(spaceshipNum);
-		++spaceshipNum;
+		
 	}
 
 	function createSinglePanel(spaceship, num) {

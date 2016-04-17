@@ -34,9 +34,8 @@ var view = function () {
 				y = - 80 - (num - 1) * 40,
 				d = deg * p / 180,
 				info = num + "号-" + energy + "%";
-	
+				
 			context.save();
-
 			context.fillStyle = "#00f";
 			context.beginPath();
 			context.rotate(d);
@@ -56,10 +55,9 @@ var view = function () {
 			context.fillText(info, x, y);
 
 			context.restore();
-
 			context.closePath();
-		/*	强行使用三角函数让飞船旋转
-			var r = 10,
+			
+			/*var r = 10,
 				l = 20,
 				p = Math.PI,
 				j = - 80 - (num - 1) * 40,
@@ -74,7 +72,7 @@ var view = function () {
 
 				el = Math.sqrt(r * r + l * l),
 				info = num + "号-" + energy + "%";
-
+			context.save();
 			context.fillStyle = "#00f";
 			context.beginPath();
 
@@ -88,16 +86,21 @@ var view = function () {
 			context.lineTo(x + el * Math.sin(p / 2 - d + e), y + el * Math.cos(p / 2 - d + e));
 			context.lineTo(x + el * Math.sin(p / 2 - d - e), y + el * Math.cos(p / 2 - d - e));										
 			context.lineTo(x - el * Math.cos(d - e), y - el * Math.sin(d - e));
-			context.lineTo(x - el * Math.cos(d + e), y - el * Math.sin(d + e)); 	*/		
-			
+			context.lineTo(x - el * Math.cos(d + e), y - el * Math.sin(d + e)); 
+
+			context.fill();		
+			context.restore();
+			context.closePath();*/
 		};
 
 	};
+
 
 	var refresh = function() {
 		context.clearRect(-uni.width / 2, -uni.height / 2, uni.width, uni.height);
 		background();
 	};
+
 	background();
 
 	return {
