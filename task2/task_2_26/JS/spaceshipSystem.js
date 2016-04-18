@@ -15,6 +15,7 @@ var SpaceshipSystem = function(num) {
 		arr.push(num);
 		arr.push(deg);
 		arr.push(this.energy);	
+		this.dataArr.push(this.deg);
 		this.poi = this.aniQueue.push(arr) - 1;			
 		this.ani();		
 	};
@@ -35,7 +36,7 @@ var SpaceshipSystem = function(num) {
 
 SpaceshipSystem.prototype = {
 	constructor: SpaceshipSystem,
-	dataArr = [],
+	dataArr: [],
 	aniQueue: [],
 	ani: function() {
 		var that = this;
@@ -43,8 +44,9 @@ SpaceshipSystem.prototype = {
 			view.refresh();
 			if (that.aniQueue.length === 0) {return false;}
 			var q = that.aniQueue;
-			for (var i = 0; i < q.length; i++) {
-				that.newSpaceship.draw(q[i][0], that.deg, q[i][2]);
+			for (var i = 0; i < q.length; i++) {			
+				that.dataArr[i] += q[i][1];
+				that.newSpaceship.draw(q[i][0], that.dataArr[i], q[i][2]);
 			}	
 			requestAnimationFrame(draw);
 		}
@@ -58,10 +60,12 @@ ss.start();
 setTimeout(function(){
 	var s = new SpaceshipSystem(2);
 	s.start(); 
+	ss.stop();
 }, 1000);
 setTimeout(function(){
 	var s3 = new SpaceshipSystem(3);
 	s3.start(); 
+	
 }, 2000);
 
 //var s = new SpaceshipSystem(2);
