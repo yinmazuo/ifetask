@@ -39,19 +39,20 @@ SpaceshipSystem.prototype = {
 	dataArr: [],
 	aniQueue: [],
 	ani: function() {
-		var that = this;
-		function draw() {
-			view.refresh();
-			if (that.aniQueue.length === 0) {return false;}
-			var q = that.aniQueue;
-			for (var i = 0; i < q.length; i++) {			
-				that.dataArr[i] += q[i][1];
-				that.newSpaceship.draw(q[i][0], that.dataArr[i], q[i][2]);
-			}	
+			var that = this;
+			function draw() {
+				view.refresh();
+				if (that.aniQueue.length === 0) {return false;}
+				var q = that.aniQueue;
+				for (var i = 0; i < q.length; i++) {			
+					that.dataArr[i] += q[i][1];
+					if (that.dataArr[i] > 360) {that.dataArr[i] -= 360;}
+					that.newSpaceship.draw(q[i][0], that.dataArr[i], q[i][2]);
+				}	
+				requestAnimationFrame(draw);
+			}
 			requestAnimationFrame(draw);
 		}
-		requestAnimationFrame(draw);
-	}
 };
 
 
