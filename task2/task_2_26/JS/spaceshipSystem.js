@@ -2,28 +2,53 @@
 var SpaceshipSystem = function(num) {
 	this.poi = -1;
 	this.deg = 0;
-	this.speed = 100;
-	this.energy = 100;
+	this.speed = 0;
 	this.newSpaceship = new view.Spaceship();
 	this.energySystem = function() {
-
+		var that = this;
+		var timer = setInterval(consume, 1000);
+		function consume() {
+			var energy = that.aniQueue[that.poi][2];
+			if (energy < 100) {
+				that.aniQueue[that.poi][2] += 2;
+			}
+			if (energy === 0 || energy < 0) {
+				energy === 0;
+				that.stop();
+			}
+			that.aniQueue[that.poi][2] -= 5;
+		}
 	};
 	this.engineSystem = function() {
-		var d = 80 + (num - 1) * 40,
-			deg = Math.asin(this.speed / 2 / d),
+		var	deg = 0,
+			energy = 100,
 			arr = [];
 		arr.push(num);
 		arr.push(deg);
-		arr.push(this.energy);	
+		arr.push(energy);	
 		this.dataArr.push(this.deg);
-		this.poi = this.aniQueue.push(arr) - 1;			
-		this.ani();		
+		this.poi = this.aniQueue.push(arr) - 1;	
+		if (this.deg === 0) {
+			this.ani();	
+		}				
 	};
-	this.mediator = function() {
-
+	this.receive = function(message) {
+		if (message["id"] !== num) {return false;}
+		switch (message["commond"]) {
+			case "start": this.start(); break;
+			case "stop": this.stop(); break;
+			case "destory": this.destory(); break;
+			default: return false;
+		}
 	};
-	this.start = function() {
+	this.new = function() {
 		this.engineSystem();
+	}
+	this.start = function() {
+		var d = 80 + (num - 1) * 40;
+		this.speed = 160;
+		this.aniQueue[this.poi][1] = Math.asin(this.speed / 2 / d);
+		this.energySystem();
 	};
 	this.stop = function() {
 		this.aniQueue[this.poi][1] = 0;
@@ -31,6 +56,8 @@ var SpaceshipSystem = function(num) {
 	this.destory = function() {
 		this.stop();
 		this.aniQueue.splice(this.poi, 1);
+		this.dataArr.splice(this.poi, 1);
+		this.speed = 0;
 	};
 };
 
@@ -39,6 +66,7 @@ SpaceshipSystem.prototype = {
 	dataArr: [],
 	aniQueue: [],
 	ani: function() {
+			if (this.dataArr.length > 1) {return false;}
 			var that = this;
 			function draw() {
 				view.refresh();
@@ -54,24 +82,3 @@ SpaceshipSystem.prototype = {
 			requestAnimationFrame(draw);
 		}
 };
-
-
-var ss = new SpaceshipSystem(1);
-ss.start(); 
-setTimeout(function(){
-	var s = new SpaceshipSystem(2);
-	s.start(); 
-	ss.stop();
-}, 1000);
-setTimeout(function(){
-	var s3 = new SpaceshipSystem(3);
-	s3.start(); 
-	
-}, 2000);
-
-//var s = new SpaceshipSystem(2);
-//s.start(); 
-//var s3 = new SpaceshipSystem(3);
-//s3.start(); 
-//var s4 = new SpaceshipSystem(4);
-//s4.start(); 

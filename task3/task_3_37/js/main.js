@@ -44,7 +44,8 @@ var mask = function() {
 	};
 	return {
 		show: show,
-		close: close
+		confirmHandler: confirmHandler,
+		cancleHandler: cancleHandler
 	}
 }();
 
