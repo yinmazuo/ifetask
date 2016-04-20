@@ -1,52 +1,64 @@
+function Mask(param) {
+	var param = param || {};
+	this.title = param.title;
+	this.content =  param.content;
+	this.confirmFn =  param.confirmFn;
+	this.cancleFn =  param.cancleFn;
+	this.wrap = $create("div");
+}
 
-var mask = function() {
-	var wrap = $create("div"),
-		title = $create("h2"),
-		content = $create("p");
-	var view = function() {		 
-		var	inner = $create("div"),
+Mask.prototype = {
+	constructor: Mask,
+	init: function() {
+		var title = $create("h2"),
+			content = $create("p"),
+			inner = $create("div"),
 			confirm = $create("button"),
-			cancle = $create("button"),
+			cancle = $create("button");	 
 			btns = $create("div");
-
 		inner.className = "inner";
-		wrap.className = "wrap";
-		title.innerHTML = "Default Title",
-		content.innerHTML = "Default Content",
+		this.wrap.className = "wrap";
+		title.innerHTML = this.title || "弹出框",
+		content.innerHTML = this.content || "是否确定？",
 		confirm.innerHTML = "confirm";
 		cancle.innerHTML = "cancle";
-
+		var that = this;
 		eve.addListener(inner, "click", innerHandler);
 		function innerHandler(e) {
 			e.stopPropagation();
-			if (e.target === confirm || e.target === cancle) {
-				close();
+			if (e.target === confirm) {
+				if (that.confirmFn !== undefined) {
+					that.confirmFn();
+				}
+				that.close();
+			} 
+			if (e.target === cancle) {
+				if (that.cancleFn !== undefined) {
+					that.cancleFn();
+				}
+				that.close();
 			}
 		}
-		eve.addListener(wrap, "click", close);
-
+		eve.addListener(this.wrap, "click", function(){that.close();});
 		btns.appendChild(confirm);
 		btns.appendChild(cancle);
 		inner.appendChild(title);
 		inner.appendChild(content);
 		inner.appendChild(btns);
-		wrap.appendChild(inner);
-	}();
-	function show(t, c) {
-		if (arguments.length === 2) {
-			title.innerHTML = t;
-			content.innerHTML = c;	
-		}		
-		$("body").appendChild(wrap);
-	};
-	function close() {
-		$("body").removeChild(wrap);
-	};
-	return {
-		show: show,
-		confirmHandler: confirmHandler,
-		cancleHandler: cancleHandler
+		this.wrap.appendChild(inner);		
+	},
+	show: function() {
+		this.init();
+		$("body").appendChild(this.wrap);
+	},
+	close: function() {
+		$("body").removeChild(this.wrap);
 	}
-}();
+}
 
-eve.addListener($("#start"), "click", mask.show);
+eve.addListener($("#start"), "click", function() {
+	var s = new Mask();
+	s.show();
+});
+
+

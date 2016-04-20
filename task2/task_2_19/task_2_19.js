@@ -41,7 +41,6 @@ function random50() {
 function runSort(){
 	var div = $("#wrap").getElementsByTagName("div");	
 	var arr = [];
-	//因为排序时使用shift方法，在此将类对象数组转换成纯数组，有点迟钝了==但是不想改排序函数
 	for (var i = 0;i < div.length;i++) {
 		div[i].style.marginLeft = "1px";
 		arr.push(div[i]);
