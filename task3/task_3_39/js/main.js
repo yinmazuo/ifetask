@@ -18,7 +18,6 @@ var tableUtil = function() {
 		this.wrap = options.wrap || $("body");
 		this.sortFn = options.sortFn || defaultSort;
 		this.table = $create("table");
-		this.thead = $create("thead");
 		this.tbody = $create("tbody");
 		this.status = [];
 	}
@@ -31,39 +30,62 @@ var tableUtil = function() {
 				sortable = this.sortable,
 				length = headData.length,
 				table = this.table,
-				thead = this.thead,
 				tbody = this.tbody;	
 			table.className = "sortableTable";	
 			//表头创建及数据填充
-			(function() {
-				var tr = $create("tr");
-				for (var i = 0; i < length; i++) {		
-					var th = $create("th");
-					th.dataset.index = i;
-					th.innerHTML = headData[i];
-					//判断是否可排序
-					if (isSort(headData[i])) {					
-						that.status.push(false);//初始化未排序状态
+			(function() {				
+				table.appendChild(createHead());//表头插入表格中
+				//创建表头副本，择机显示在窗口上
+				(function() {
+					var fixedHead = createHead();		
+					fixedHead.style.position = "fixed";
+					fixedHead.style.top = "0px";					
+					fixedHead.style.display = "none";
+					$("body").appendChild(fixedHead);
+					eve.addListener(window, "resize", showHead);//监听窗口大小改变
+					eve.addListener(window, "scroll", showHead);//监听页面滚动
+					function showHead() {
+						var clientTop = table.getBoundingClientRect().top,//获取表格距离视口的高
+							clientLeft = table.getBoundingClientRect().left;//获取表格距离视口的宽
+						if (clientTop < 0) {
+							fixedHead.style.left = clientLeft + "px";
+							fixedHead.style.display = "";
+						} else {
+							fixedHead.style.display = "none";
+						}	
+					}				
+				})();			
 
-						var icon = $create("span");
-						icon.className = "icon-sort";
-						th.className = "isSort";
-						th.appendChild(icon);
-						eve.addListener(th, "click", sort);
+				function createHead() {
+					var tr = $create("tr"),
+						thead = $create("thead");
+					thead.className = "sortableThead";
+					for (var i = 0; i < length; i++) {		
+						var th = $create("th");
+						th.dataset.index = i;
+						th.innerHTML = headData[i];
+						//判断是否可排序
+						if (isSort(headData[i])) {					
+							that.status.push(false);//初始化未排序状态
+							var icon = $create("span");
+							icon.className = "icon-sort";
+							th.className = "isSort";
+							th.appendChild(icon);
+							eve.addListener(th, "click", sort);
+						}
+						tr.appendChild(th);
 					}
-					tr.appendChild(th);
+					thead.appendChild(tr);
+					return thead;
 				}
-				thead.appendChild(tr);
-				table.appendChild(thead);
-
 				function sort(event) {
 					var e = event || window.event,
 						target = e.target || e.srcElement,
 						index;
 					if (target.className === "icon-sort") {target = target.parentNode;}
-					index = target.dataset.index;
+					index = target.dataset.index;	
 					if (!that.status[index]) {
-						bodyData.reverse();
+						bodyData.reverse();//保证排序稳定性
 						that.sortFn(bodyData, index);
 						that.status[index] = true;
 					} else {
@@ -139,7 +161,25 @@ var table1 = tableUtil.init({
 			  ["AAA", 20, 50, 40, 30, 60],
 			  ["BBB", 50, 40, 30, 60, 70],
 			  ["CCC", 40, 80, 60, 70, 50],
-			  ["DDD", 70, 60, 50, 80, 90]
+			  ["DDD", 70, 60, 50, 80, 90],
+			  ["EEE", 20, 50, 40, 30, 60],
+			  ["FFF", 50, 40, 30, 60, 70],
+			  ["GGG", 40, 80, 60, 70, 50],
+			  ["HHH", 70, 60, 50, 80, 90],
+			  ["III", 20, 50, 40, 30, 60],
+			  ["JJJ", 50, 40, 30, 60, 70],
+			  ["KKK", 40, 80, 60, 70, 50],
+			  ["LLL", 70, 45, 45, 80, 90],
+			  ["MMM", 10, 60, 54, 67, 62],
+			  ["NNN", 80, 67, 67, 71, 73],
+			  ["OOO", 60, 90, 78, 72, 46],
+			  ["PPP", 40, 60, 85, 40, 94],
+			  ["QQQ", 20, 78, 75, 60, 86],
+			  ["RRR", 12, 76, 43, 87, 74],
+			  ["SSS", 23, 43, 87, 89, 62],
+			  ["TTT", 45, 78, 09, 85, 86],
+			  ["UUU", 67, 09, 78, 82, 52],
+			  ["VVV", 70, 70, 74, 80, 96]
 		],
 		sortable: ["Chinese", "Math", "English", "Physics", "Chemistry"]
 	},
@@ -153,7 +193,7 @@ config: {
 			  ["AAA", 20, 50, 40, 30, 60],
 			  ["BBB", 50, 40, 30, 60, 70],
 			  ["CCC", 40, 80, 60, 70, 50],
-			  ["DDD", 70, 60, 50, 80, 90]
+			  ["DDD", 70, 60, 50, 80, 90],
 		],
 		sortable: ["Chinese", "Math", "English", "Physics", "Chemistry"]
 	},
