@@ -1,0 +1,55 @@
+@chartset "utf-8";
+
+* {padding: 0; margin: 0;}
+
+.wrap {
+	position: relative;
+	width: 320px;
+	height: 30px;
+	margin: 200px auto;
+	border: 1px solid #999;
+}
+.dateIn {
+	width: 100%;
+	height: 30px;
+	border: 0;
+}
+
+.calendar {
+	position: absolute;
+	top: 30px;
+	left: 0;
+	box-sizing: border-box;
+	width: 320px;
+	height: 360px;
+	border: 1px solid #999;
+	font-family: "Microsoft YaHei";
+}
+.calendar ul {
+	overflow: hidden;
+	width: 100%;
+}
+.calendar li {
+	list-style: none;
+	display: block;
+	box-sizing: border-box;	
+	width: 40px;
+	height: 40px;
+	float: left;
+	font-size: 18px;
+	line-height: 40px;
+	text-align: center;
+}
+.calendar > .calendarHead > span.btn {
+	position: absolute;
+	width: 0;
+	height: 0;
+	border-top: 8px solid transparent;
+	border-bottom: 8px solid transparent;
+}
+.calendar > .calendarHead > span.prev {
+	border-right: 18px solid #000;
+}
+.calendar > .calendarHead > span.next {
+	border-left: 18px solid #000;
+}
