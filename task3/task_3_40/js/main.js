@@ -62,12 +62,23 @@ var calendar= function() {
 			eve.addListener(fhead.querySelector(".selectDate"), "click", handler);
 			eve.addListener(fhead.querySelector(".prev"), "click", handler);
 			eve.addListener(fhead.querySelector(".next"), "click", handler);
+			eve.addListener(fbody.querySelector(".days"), "click", handler);
 			function handler(event) {
 				var e = event || window.event,
 					target = e.target || e.srcElement;
+				var lis = fbody.querySelector(".days").querySelectorAll("li");
+				for (var i = 0, length = lis.length; i < length; i++) {
+					if (lis[i].classList.contains("selected")) {
+						lis[i].classList.remove("selected")
+					}
+				}
+				if (target.classList.contains("day")) {
+					target.classList.toggle("selected");
+					return ;
+				}
 				switch (target.className) {
 					case "js-month":
-						that.month = target.selectedIndex;						
+						that.month = target.selectedIndex;											
 						break;
 					case "js-year":
 						that.year = target.selectedIndex + startDate.getFullYear();
@@ -80,8 +91,8 @@ var calendar= function() {
 						break;
 					default:
 						break;
-				}
-				that.changeDate();
+				}	
+				that.changeDate();					
 			}		
 			function btnHandler(d) {	
 				if (d === "prev") {
@@ -118,17 +129,28 @@ var calendar= function() {
 			
 			var lis = $(".calendar .days").querySelectorAll("li");
 			for (var j = 0, length = lis.length; j < length; j++) {
+				lis[j].classList.add("day");
 				if (lis[j].classList.contains("currMonth")) {
 					lis[j].classList.remove("currMonth");
 				}
 				if (dateArr[j].getFullYear() === this.year && dateArr[j].getMonth() === this.month) {
-					lis[j].className = "currMonth";
+					lis[j].classList.add("currMonth");
 				}
 				lis[j].innerHTML = dateArr[j].getDate();
 			}
 		},
-		_setDate: function() {
-
+		_setDate: function(date) {
+			var newDate = new Date(date),
+				year = newDate.getFullYear();
+				console.log(this);
+			if(year < this.startDate.getFullYear() || year > this.endDate.getFullYear()) {
+				alert("设置的日期超出范围！");
+				return false;
+			}
+			$(".calendarHead").querySelector(".js-year").selectedIndex = this.year = year;
+			$(".calendarHead").querySelector(".js-month").selectedIndex = this.month = newDate.getMonth();
+			this.date = newDate.getDate();
+			this.changeDate();
 		},
 		_getDate: function() {
 
@@ -148,11 +170,13 @@ var calendar= function() {
 }();
 
 
-var calendar1 = calendar.init( {
+var calendar1 = calendar.init({
  	wrap: $(".wrap"),
  	startDate: "2000/01/01",
  	endDate: "2020/12/31",
  	});
+
+calendar1.setDate("2010/06/10");
 
 /*配置格式
  config: {

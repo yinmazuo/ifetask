@@ -80,13 +80,13 @@
 .calendar > .calendarBody > ul.daysOfWeek > li {color: #f00;}
 .calendar .days li {cursor: pointer;}
 .calendar .days li {color: #999;}
-.calendar .days li:hover {
+.calendar .days li:hover, .calendar .days li.selected {
 	color: #0f0; 
 	border: 1px solid #0f0;
 	border-radius: 5px
 }
 .calendar .days li.currMonth {color: #000;}
-.calendar .days li.currMonth:hover {
+.calendar .days li.currMonth:hover, .calendar .days li.currMonth.selected {
 	color: #00f;
 	border: 1px solid #00f;
 }
