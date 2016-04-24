@@ -29,14 +29,17 @@ var calendar= function() {
 					years = [],
 					months = ["January", "February", "March", "April", "May", "June", "July", "August",
 							"September", "October", "November", "December"];
-				while (end >= start) {
-					years.push(start);
-					++start;
+				var s = start;
+				while (end >= s) {
+					years.push(s);
+					++s;
 				}
 				fhead.innerHTML = "<span class='prev btn'></span><div class='selectDate'>" + 
 									"<select class='js-month'>" + createFragment(months, "option") + "</select>" + 
 									"<select class='js-year'>" + createFragment(years, "option") + "</select>" + 
 									"</div><span class='next btn'></span>";
+				fhead.querySelector(".js-month").selectedIndex = that.month;
+				fhead.querySelector(".js-year").selectedIndex = (that.year - start);
 				frame.appendChild(fhead);				
 			})();
 			(function() {
@@ -56,23 +59,54 @@ var calendar= function() {
 			}
 			this.wrap.appendChild(frame);
 
-			eve.addListener(frame, "click", handler);
+			eve.addListener(fhead.querySelector(".selectDate"), "click", handler);
+			eve.addListener(fhead.querySelector(".prev"), "click", handler);
+			eve.addListener(fhead.querySelector(".next"), "click", handler);
 			function handler(event) {
 				var e = event || window.event,
 					target = e.target || e.srcElement;
 				switch (target.className) {
 					case "js-month":
-						that.month = target.selectedIndex;
+						that.month = target.selectedIndex;						
 						break;
 					case "js-year":
-						that.year = target.selectedIndex;
+						that.year = target.selectedIndex + startDate.getFullYear();
+						break;
+					case "prev btn":
+						btnHandler("prev");
+						break;
+					case "next btn":
+						btnHandler("next");
 						break;
 					default:
-						// statements_def
 						break;
 				}
-			}
-
+				that.changeDate();
+			}		
+			function btnHandler(d) {	
+				if (d === "prev") {
+					if (that.year === startDate.getFullYear() && that.month === 0){
+						return false;
+					}
+					--that.month 
+				}
+				if (d === "next") {
+					if ((that.year === endDate.getFullYear() && that.month === 11)) {
+						return false;
+					}
+					++that.month;
+				}
+				if (that.month < 0) {
+					that.month = 11;
+					--that.year;
+				}
+				if (that.month > 11) {
+					that.month = 0;
+					++that.year;
+				}
+				fhead.querySelector(".js-month").selectedIndex = that.month;
+				fhead.querySelector(".js-year").selectedIndex = that.year - startDate.getFullYear();
+			}				
 		},
 		changeDate: function() {
 			var	firstDay = new Date(this.year + "/" + (this.month + 1) + "/" + "01").getDay(),
@@ -84,7 +118,10 @@ var calendar= function() {
 			
 			var lis = $(".calendar .days").querySelectorAll("li");
 			for (var j = 0, length = lis.length; j < length; j++) {
-				if (dateArr[j].getMonth() === this.month) {
+				if (lis[j].classList.contains("currMonth")) {
+					lis[j].classList.remove("currMonth");
+				}
+				if (dateArr[j].getFullYear() === this.year && dateArr[j].getMonth() === this.month) {
 					lis[j].className = "currMonth";
 				}
 				lis[j].innerHTML = dateArr[j].getDate();
