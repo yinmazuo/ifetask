@@ -66,7 +66,11 @@ var calendar= function() {
 			function handler(event) {
 				var e = event || window.event,
 					target = e.target || e.srcElement;
-				var lis = fbody.querySelector(".days").querySelectorAll("li");
+				if (target.classList.contains("day") && 
+					!target.classList.contains("currMonth")) {
+					return false;
+				}
+				var lis = fbody.querySelector(".days").querySelectorAll(".currMonth");
 				for (var i = 0, length = lis.length; i < length; i++) {
 					if (lis[i].classList.contains("selected")) {
 						lis[i].classList.remove("selected");
