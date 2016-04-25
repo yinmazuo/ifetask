@@ -4,9 +4,9 @@ var calendar= function() {
 		this.startDate = config.startDate;
 		this.endDate = config.endDate;
 		this.wrap = config.wrap;
-		this.currYear = null;
-		this.currMonth = null;
-		this.currDate = null;
+		this.year = -1;
+		this.month = -1;
+		this.date = -1;
 	}
 	Calendar.prototype = {
 		createCanlendarFrame: function() {		
@@ -43,7 +43,7 @@ var calendar= function() {
 				frame.appendChild(fhead);				
 			})();
 			(function() {
-				var daysOfWeek = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]
+				var daysOfWeek = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
 					days = new Array(42);
 				fbody.innerHTML = "<ul class='daysOfWeek'>" + createFragment(daysOfWeek, "li") + "</ul>" + 
 								"<ul class='days'>" + createFragment(days, "li") + "</ul>";
@@ -59,7 +59,7 @@ var calendar= function() {
 			}
 			this.wrap.appendChild(frame);
 
-			eve.addListener(fhead.querySelector(".selectDate"), "click", handler);
+			eve.addListener(fhead.querySelector(".selectDate"), "change", handler);
 			eve.addListener(fhead.querySelector(".prev"), "click", handler);
 			eve.addListener(fhead.querySelector(".next"), "click", handler);
 			eve.addListener(fbody.querySelector(".days"), "click", handler);
@@ -69,12 +69,13 @@ var calendar= function() {
 				var lis = fbody.querySelector(".days").querySelectorAll("li");
 				for (var i = 0, length = lis.length; i < length; i++) {
 					if (lis[i].classList.contains("selected")) {
-						lis[i].classList.remove("selected")
+						lis[i].classList.remove("selected");
 					}
 				}
 				if (target.classList.contains("day")) {
-					target.classList.toggle("selected");
-					return ;
+					that.date = parseInt(target.innerHTML);
+					target.classList.add("selected");							
+					return false;
 				}
 				switch (target.className) {
 					case "js-month":
@@ -123,7 +124,7 @@ var calendar= function() {
 			var	firstDay = new Date(this.year + "/" + (this.month + 1) + "/" + "01").getDay(),
 				dateArr = [];
 			for (var i = 1 - firstDay, count = 42 - firstDay; i <= count; i++) {
-				var newDate = new Date(this.year + "/" + (this.month + 1));
+				var newDate = new Date(this.year + "/" + (this.month + 1) + "/");
 				dateArr.push(new Date(newDate.setDate(i)));
 			}
 			
@@ -132,28 +133,44 @@ var calendar= function() {
 				lis[j].classList.add("day");
 				if (lis[j].classList.contains("currMonth")) {
 					lis[j].classList.remove("currMonth");
-				}
+				}	
+				if (lis[j].classList.contains("selected")) {
+					lis[j].classList.remove("selected");
+				}			
 				if (dateArr[j].getFullYear() === this.year && dateArr[j].getMonth() === this.month) {
-					lis[j].classList.add("currMonth");
+					if (dateArr[j].getDate() === this.date) {
+						lis[j].classList.add("selected");
+					}
+					lis[j].classList.add("currMonth");					
 				}
+
 				lis[j].innerHTML = dateArr[j].getDate();
 			}
 		},
 		_setDate: function(date) {
+			var pattern = /^\d{1,4}\/\d{1,2}\/\d{1,2}$/;
+			if (!pattern.test(date)) {
+				alert("请输入正确的日期格式！");
+				return false;
+			}
 			var newDate = new Date(date),
-				year = newDate.getFullYear();
-				console.log(this);
-			if(year < this.startDate.getFullYear() || year > this.endDate.getFullYear()) {
+				year = newDate.getFullYear(),
+				startDate = new Date(this.startDate),
+				endDate = new Date(this.endDate);
+			if(year < startDate.getFullYear() || 
+				year > endDate.getFullYear()) {
 				alert("设置的日期超出范围！");
 				return false;
 			}
-			$(".calendarHead").querySelector(".js-year").selectedIndex = this.year = year;
+			this.year = year;
+			$(".calendarHead").querySelector(".js-year").selectedIndex = year - startDate.getFullYear();
 			$(".calendarHead").querySelector(".js-month").selectedIndex = this.month = newDate.getMonth();
 			this.date = newDate.getDate();
 			this.changeDate();
 		},
 		_getDate: function() {
-
+			var date = this.year + "/" + (this.month + 1) + "/" + this.date;
+			return date;
 		}
 	};
 	return {
@@ -162,8 +179,8 @@ var calendar= function() {
 			newCalendar.createCanlendarFrame();
 			newCalendar.changeDate();
 			return {
-				setDate: newCalendar._setDate,
-				getDate: newCalendar._getDate
+				setDate: newCalendar._setDate.bind(newCalendar),
+				getDate: newCalendar._getDate.bind(newCalendar)
 			}
 		}
 	}
@@ -175,8 +192,13 @@ var calendar1 = calendar.init({
  	startDate: "2000/01/01",
  	endDate: "2020/12/31",
  	});
-
-calendar1.setDate("2010/06/10");
+eve.addListener($(".in"), "click", function(){
+	var value = $(".dateIn").value;
+	calendar1.setDate(value);
+});
+eve.addListener($(".out"), "click", function(){
+	$(".dateIn").value = calendar1.getDate();
+});
 
 /*配置格式
  config: {

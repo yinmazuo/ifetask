@@ -4,13 +4,14 @@
 
 .wrap {
 	position: relative;
-	width: 320px;
+	width: 440px;
 	height: 30px;
-	margin: 200px auto;
+	margin: 20px auto;
 	border: 1px solid #999;
 }
 .dateIn {
-	width: 100%;
+	float: left;
+	width: 320px;
 	height: 30px;
 	border: 0;
 }
@@ -89,4 +90,13 @@
 .calendar .days li.currMonth:hover, .calendar .days li.currMonth.selected {
 	color: #00f;
 	border: 1px solid #00f;
+}
+
+.wrap button {
+	float: left;
+	width: 60px;
+	height: 30px;
+	color: #fff;
+	border: 0;
+	background-color: #00f;
 }
