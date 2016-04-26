@@ -22,7 +22,8 @@ var calendar= function() {
 			this.date = currDate.getDate();				
 			frame.className = "calendar";
 			fhead.className = "calendarHead";
-			fbody.className = "calendarBody";		
+			fbody.className = "calendarBody";	
+			//生成日历头	
 			(function() {
 				var start = startDate.getFullYear(),
 					end = endDate.getFullYear(),
@@ -42,6 +43,7 @@ var calendar= function() {
 				fhead.querySelector(".js-year").selectedIndex = (that.year - start);
 				frame.appendChild(fhead);				
 			})();
+			//生成星期
 			(function() {
 				var daysOfWeek = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
 					days = new Array(42);
@@ -58,7 +60,7 @@ var calendar= function() {
 				return fragment;
 			}
 			this.wrap.appendChild(frame);
-
+			//注册监听事件
 			eve.addListener(fhead.querySelector(".selectDate"), "change", handler);
 			eve.addListener(fhead.querySelector(".prev"), "click", handler);
 			eve.addListener(fhead.querySelector(".next"), "click", handler);
@@ -124,6 +126,7 @@ var calendar= function() {
 				fhead.querySelector(".js-year").selectedIndex = that.year - startDate.getFullYear();
 			}				
 		},
+		//日期数据更新
 		changeDate: function() {
 			var	firstDay = new Date(this.year + "/" + (this.month + 1) + "/" + "01").getDay(),
 				dateArr = [];
@@ -151,6 +154,7 @@ var calendar= function() {
 				lis[j].innerHTML = dateArr[j].getDate();
 			}
 		},
+		//设定日期
 		_setDate: function(date) {
 			var pattern = /^\d{1,4}\/\d{1,2}\/\d{1,2}$/;
 			if (!pattern.test(date)) {
@@ -172,6 +176,7 @@ var calendar= function() {
 			this.date = newDate.getDate();
 			this.changeDate();
 		},
+		//获取当前日期
 		_getDate: function() {
 			var date = this.year + "/" + (this.month + 1) + "/" + this.date;
 			return date;
