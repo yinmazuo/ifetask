@@ -9,6 +9,12 @@
 	margin: 20px auto;
 	border-radius: 3px;
 	border: 1px solid #999;
+}
+.wrap > a.icon {
+	display: inline-block;
+	width: 30px;
+	height: 30px;
+	color: #000;
 	line-height: 30px;
 	text-align: center;
 	background-color: #ccc;
@@ -19,6 +25,7 @@
 	width: 320px;
 	height: 30px;
 	border: 0;
+	border-radius: 3px;
 }
 
 .calendar {
@@ -103,10 +110,12 @@
 	text-align: center;
 }
 .calendar > .calendarBody > ul.daysOfWeek > li {color: #f00;}
-.calendar .days li {color: #999;}
+.calendar .days li {
+	color: #999;
+	cursor: pointer;
+}
 .calendar .days li.currMonth {
 	border-radius: 5px;
-	cursor: pointer;
 	color: #000;
 }
 .calendar .days li.currMonth:hover, 
