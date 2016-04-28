@@ -90,19 +90,25 @@ var calendar= function() {
 			function handler(event) {
 				var e = event || window.event,
 					target = e.target || e.srcElement;
-				if (target.classList.contains("day") && 
-					!target.classList.contains("currMonth")) {
-					return false;
-				}
+				if ($classList.contains(target, "days") || 
+					$classList.contains(target, "none")) {return false;}
 				var lis = fbody.querySelector(".days").querySelectorAll(".currMonth");
 				for (var i = 0, length = lis.length; i < length; i++) {
-					if (lis[i].classList.contains("selected")) {
-						lis[i].classList.remove("selected");
+					if ($classList.contains(lis[i], "selected")) {
+						$classList.remove(lis[i], "selected");
 					}
 				}
-				if (target.classList.contains("day")) {
+				if ($classList.contains(target, "day")) {
 					that.date = parseInt(target.innerHTML);
-					target.classList.add("selected");
+					$classList.add(target, "selected");
+					if ($classList.contains(target, "prevMonth")) {						
+						btnHandler("prev");
+						that.changeDate();
+					} 
+					if ($classList.contains(target, "nextMonth")) {					
+						btnHandler("next");
+						that.changeDate();
+					}					
 					that._target();								
 					return false;
 				}
@@ -161,25 +167,41 @@ var calendar= function() {
 			
 			var lis = $(".calendar .days").querySelectorAll("li");
 			for (var j = 0, length = lis.length; j < length; j++) {
-				lis[j].classList.add("day");
-				if (lis[j].classList.contains("currMonth")) {
-					lis[j].classList.remove("currMonth");
-				}	
-				if (lis[j].classList.contains("selected")) {
-					lis[j].classList.remove("selected");
-				}			
-				if (dateArr[j].getFullYear() === this.year && dateArr[j].getMonth() === this.month) {
-					lis[j].classList.add("currMonth");					
-					if (dateArr[j].getDate() === this.date) {
-						lis[j].classList.add("selected");
-					}										
+				lis[j].className = "";
+				$classList.add(lis[j], "day");		
+				if (dateArr[j].getFullYear() === this.year) {
+					if (dateArr[j].getMonth() === this.month) {
+						$classList.add(lis[j], "currMonth");					
+						if (dateArr[j].getDate() === this.date) {
+							$classList.add(lis[j], "selected");
+						}
+					}									
 				}
 				lis[j].innerHTML = dateArr[j].getDate();
+				if (dateArr[j].getMonth() !== this.month) {
+					if (j < firstDay) {
+						if (this.year === new Date (this.startDate).getFullYear()) {
+							$classList.add(lis[j], "none");
+							lis[j].innerHTML = "";
+							lis[j].style.cursor = "initial";
+						} else {
+							$classList.add(lis[j], "prevMonth");
+						}						
+					} else {
+						if (this.year === new Date (this.endDate).getFullYear()) {
+							$classList.add(lis[j], "none");							
+							lis[j].innerHTML = "";
+							lis[j].style.cursor = "initial";
+						} else {
+							$classList.add(lis[j], "nextMonth");
+						}
+					}					
+				}				
 			}
 			//选择月份最后一天并切换月份时，进行修正
 			if ($(".calendar .days").querySelectorAll(".selected").length === 0) {
 				var currMonth = $(".calendar .days").querySelectorAll(".currMonth");
-				currMonth[currMonth.length - 1].classList.add("selected");
+				$classList.add(currMonth[currMonth.length - 1], "selected");
 				this.date = currMonth.length;
 			}
 		},
@@ -239,7 +261,7 @@ var calendar1 = calendar.init({
  	startDate: "2000/01/01",
  	endDate: "2020/12/31",
  	callBack: function() {
- 		alert("回调方法！");
+ 		console.log("回调方法！");
  	}
  });
 
